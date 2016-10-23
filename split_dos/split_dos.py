@@ -11,7 +11,6 @@ __author__ = "LI Kezhi"
 __date__ = "$2016-10-18$"
 __version__ = "1.0"
 
-lineNum = 0
 rows = 0    # the total number of rows
 
 fileNum = 0
@@ -26,22 +25,24 @@ def count():
         yield i
 index = count()
 
-for line in open('DOSCAR', 'r'):
-    if lineNum == 5:    # pass the header
-        splitting = line.split()
-        rows = int(splitting[2])
-        isNewStart = False
-        file = open('DOS' + str(fileNum), 'w')
-    elif lineNum > 5:
-        if isNewStart:
-            file = open('DOS' + str(fileNum), 'w')
+with open('DOSCAR', 'r') as f:
+    lineNum = 0
+    for line in f:
+        if lineNum == 5:    # pass the header
+            splitting = [item for item in line.split() if item != '']
+            rows = int(splitting[2])
             isNewStart = False
-            continue    # pass the header
-        file.write(line)
-        if index.next() % rows == 0:    # end of data
-            fileNum += 1
-            isNewStart = True
-            file.close()
-    lineNum += 1
+            file = open('DOS' + str(fileNum), 'w')
+        elif lineNum > 5:
+            if isNewStart:
+                file = open('DOS' + str(fileNum), 'w')
+                isNewStart = False
+                continue    # pass the header
+            file.write(line)
+            if index.next() % rows == 0:    # end of data
+                fileNum += 1
+                isNewStart = True
+                file.close()
+        lineNum += 1
 
 print ('%d DOS file(s) have been splitted named as DOS0, DOS1...' % fileNum)

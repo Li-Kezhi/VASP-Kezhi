@@ -34,16 +34,17 @@ def distance(point1, point2):
 file = 'KPOINTS'
 kpoints = []
 isKpointsBeginning = False
-for line in open(file, 'r'):
-    splitting = line.split()
-    if splitting != [] and splitting[0][0] in 'Rr':    # find reciprocal/Reciprocal
-        isKpointsBeginning = True
-        continue
-    if isKpointsBeginning == True:
-        if splitting != []:
-            kpoint = [float(splitting[0]), float(splitting[1]), float(splitting[2])]
-            if not kpoint in kpoints:
-                kpoints.append(kpoint)
+with open(file, 'r') as f:
+    for line in f:
+        splitting = [item for item in line.split() if item != '']
+        if splitting != [] and splitting[0][0] in 'Rr':    # find reciprocal/Reciprocal
+            isKpointsBeginning = True
+            continue
+        if isKpointsBeginning == True:
+            if splitting != []:
+                kpoint = [float(splitting[0]), float(splitting[1]), float(splitting[2])]
+                if not kpoint in kpoints:
+                    kpoints.append(kpoint)
 
 
 # Read EIGENVAL
@@ -54,35 +55,36 @@ kpointMark = []
 bandEnergy = {}
 bandOccupancy = {}
 kpointDistance = []
-for line in open(file, 'r'):
-    if lineNum == 5:    # header
-        bandNum = int(line.split()[2])
-        kpointNum = int(line.split()[1])
-        # Initiate bandEnergy and bandOccupancy
-        for i in xrange(bandNum):
-            bandEnergy[i] = []
-            bandOccupancy[i] = []
+with open(file, 'r') as f:
+    for line in f:
+        if lineNum == 5:    # header
+            bandNum = int(line.split()[2])
+            kpointNum = int(line.split()[1])
+            # Initiate bandEnergy and bandOccupancy
+            for i in xrange(bandNum):
+                bandEnergy[i] = []
+                bandOccupancy[i] = []
 
-    if lineNum >= 7:
-        currentIndexLine = indexLine.next()
-        if currentIndexLine % (bandNum + 2) == 0:    # header
-            splitting = line.split()
-            kpoint = [float(splitting[0]), float(splitting[1]), float(splitting[2])]
-            if kpoint in kpoints:
-                kpointMark.append(currentIndexLine / (bandNum + 2))
-            # Calculate respiracal distance
-            if 'lastKpoint' in locals().keys():
-                kpointDistance.append(distance(lastKpoint, kpoint))
-                lastKpoint = kpoint
-            else:
-                kpointDistance.append(0)
-                lastKpoint = kpoint
-        elif currentIndexLine % (bandNum + 2) < (bandNum + 1):
-            splitting = line.split()
-            bandEnergy[int(splitting[0]) - 1].append(float(splitting[1]))
-            bandOccupancy[int(splitting[0]) - 1].append(float(splitting[2]))
+        if lineNum >= 7:
+            currentIndexLine = indexLine.next()
+            if currentIndexLine % (bandNum + 2) == 0:    # header
+                splitting = [item for item in line.split() if item != '']
+                kpoint = [float(splitting[0]), float(splitting[1]), float(splitting[2])]
+                if kpoint in kpoints:
+                    kpointMark.append(currentIndexLine / (bandNum + 2))
+                # Calculate respiracal distance
+                if 'lastKpoint' in locals().keys():
+                    kpointDistance.append(distance(lastKpoint, kpoint))
+                    lastKpoint = kpoint
+                else:
+                    kpointDistance.append(0)
+                    lastKpoint = kpoint
+            elif currentIndexLine % (bandNum + 2) < (bandNum + 1):
+                splitting = [item for item in line.split() if item != '']
+                bandEnergy[int(splitting[0]) - 1].append(float(splitting[1]))
+                bandOccupancy[int(splitting[0]) - 1].append(float(splitting[2]))
 
-    lineNum += 1
+        lineNum += 1
 
 # Plotting
 X = np.zeros(kpointNum)
