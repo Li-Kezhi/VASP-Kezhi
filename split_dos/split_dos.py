@@ -8,8 +8,8 @@ The script should be put at the working respiratory
 '''
 
 __author__ = "LI Kezhi" 
-__date__ = "$2016-10-18$"
-__version__ = "1.0"
+__date__ = "$2016-10-23$"
+__version__ = "1.1"
 
 rows = 0    # the total number of rows
 

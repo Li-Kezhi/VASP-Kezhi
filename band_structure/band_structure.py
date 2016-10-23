@@ -7,8 +7,8 @@ The script should be put at the working respiratory
 '''
 
 __author__ = "LI Kezhi" 
-__date__ = "$2016-10-19$"
-__version__ = "1.0"
+__date__ = "$2016-10-23$"
+__version__ = "1.1"
 
 import numpy as np
 import matplotlib.pyplot as plt
