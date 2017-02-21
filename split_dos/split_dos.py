@@ -6,7 +6,7 @@ Assuming that LORBIT = 11
 The script should be put at the working respiratory
 '''
 
-__author__ = "LI Kezhi" 
+__author__ = "LI Kezhi"
 __date__ = "$2016-10-23$"
 __version__ = "1.1"
 
@@ -33,17 +33,17 @@ with open('DOSCAR', 'r') as f:
             splitting = [item for item in line.split() if item != '']
             rows = int(splitting[2])
             isNewStart = False
-            file = open('DOS' + str(fileNum), 'w')
+            f = open('DOS' + repr(fileNum), 'w')
         elif lineNum > 5:
             if isNewStart:
-                file = open('DOS' + str(fileNum), 'w')
+                f = open('DOS' + repr(fileNum), 'w')
                 isNewStart = False
                 continue  # pass the header
-            file.write(line)
+            f.write(line)
             if index.next() % rows == 0:  # end of data
                 fileNum += 1
                 isNewStart = True
-                file.close()
+                f.close()
         lineNum += 1
 
 print('%d DOS file(s) have been splitted named as DOS0, DOS1...' % fileNum)

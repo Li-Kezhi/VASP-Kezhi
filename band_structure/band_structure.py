@@ -5,7 +5,7 @@ Plot band structure
 The script should be put at the working respiratory
 '''
 
-__author__ = "LI Kezhi" 
+__author__ = "LI Kezhi"
 __date__ = "$2016-10-23$"
 __version__ = "1.1"
 
@@ -34,10 +34,10 @@ def distance(point1, point2):
         (point1[2] - point2[2])**2)
 
 # Read KPOINTS to get critical k-points
-file = 'KPOINTS'
+fileName = 'KPOINTS'
 kpoints = []
 isKpointsBeginning = False
-with open(file, 'r') as f:
+with open(fileName, 'r') as f:
     for line in f:
         splitting = [item for item in line.split() if item != '']
         if splitting != [] and splitting[0][0] in 'Rr':  # find R(r)eciprocal
@@ -50,19 +50,19 @@ with open(file, 'r') as f:
                     float(splitting[1]), 
                     float(splitting[2])
                 ]
-                if not kpoint in kpoints:
+                if kpoint not in kpoints:
                     kpoints.append(kpoint)
 
 
 # Read EIGENVAL
-file = 'EIGENVAL'
+fileName = 'EIGENVAL'
 
 lineNum = 0
 kpointMark = []
 bandEnergy = {}
 bandOccupancy = {}
 kpointDistance = []
-with open(file, 'r') as f:
+with open(fileName, 'r') as f:
     for line in f:
         if lineNum == 5:  # header
             bandNum = int(line.split()[2])
