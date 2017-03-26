@@ -6,9 +6,11 @@ Assuming that LORBIT = 11
 The script should be put at the working respiratory
 '''
 
+from __future__ import print_function
+
 __author__ = "LI Kezhi"
-__date__ = "$2016-10-23$"
-__version__ = "1.1"
+__date__ = "$2017-02-26$"
+__version__ = "1.1.1"
 
 rows = 0  # the total number of rows
 
