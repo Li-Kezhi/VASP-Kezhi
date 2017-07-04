@@ -1,6 +1,17 @@
-'''
-Add "T" mark in POSCAR file
-'''
+#!/usr/bin/env python
+# # -*- coding:utf-8 -*-
+
+"""
+Add "T/F" mark in POSCAR file
+"""
+
+__author__ = "LI Kezhi"
+__date__ = "$2017-07-04$"
+__version__ = "0.0.2"
+
+Z_BOUNDARY = None # When z >= Z_BOUNDARY, add "T" marks, else add "F" marks
+if Z_BOUNDARY is None:
+    Z_BOUNDARY = raw_input('Please enter the z value for fixing boundary:')
 
 output = open('POSCARout', 'w')
 with open('POSCAR', 'r') as f:
@@ -56,6 +67,7 @@ with open('POSCAR', 'r') as f:
         if isEndOfElemtnsLine:
             if splitted[0][0] in 'dDkKcC':
                 isCoordinate = True
+                output.write('Selective dynamics\n')
                 output.write(line)
                 continue
 
@@ -63,5 +75,9 @@ with open('POSCAR', 'r') as f:
         if not isCoordinate:
             output.write(line)
         else:
+            x, y, z = line.rstrip().split()
             output.write(line.rstrip())
-            output.write(' T T T\n')
+            if z < Z_BOUNDARY:
+                output.write(' F F F\n')
+            else:
+                output.write(' T T T\n')
