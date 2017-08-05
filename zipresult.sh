@@ -1,0 +1,2 @@
+#bin/bash
+tar -czf results.tar.gz CONTCAR DOSCAR INCAR KPOINTS OSZICAR OUTCAR POSCAR POTCAR XDATCAR vasprun.xml 

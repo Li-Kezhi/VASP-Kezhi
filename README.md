@@ -8,3 +8,11 @@ Personnal scripts package used for VASP
 * band_structure
 
     Used for plotting band structure
+
+* create_input
+
+    Used for add T/F marks in the POSCAR
+
+* zipresult.sh
+
+    Used for zip useful results
